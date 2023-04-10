@@ -36,6 +36,23 @@ public class MatchController {
 		/*se for numérico, vou fazer a conversão para DOUBLE e realizar a SOMA*/
 		return convertToDouble(numberOne) + convertToDouble(numberTwo);
 	}
+	
+	@RequestMapping(value = "/subtraction/{numberOne}/{numberTwo}", method=RequestMethod.GET)
+	public Double subtraction(
+			@PathVariable(value = "numberOne") String numberOne, /*variavel da URL*/
+			@PathVariable(value = "numberTwo") String numberTwo /*variavel da URL*/
+
+			) throws Exception{
+		
+		/*depois de receber as informações que o usuario passou vamos verificar
+		 * se é numerico*/
+		if (!isNumeric(numberOne) || !isNumeric (numberTwo)) {
+			throw new UnsupportedMathOperationException("Please set a numeric value!");
+		}
+		
+		/*se for numérico, vou fazer a conversão para DOUBLE e realizar a SOMA*/
+		return convertToDouble(numberOne) - convertToDouble(numberTwo);
+	}
 
 	private boolean isNumeric(String strNumber) {
 		if(strNumber == null) return false;/*verifica se é null, poderia retornar uma exceção*/
