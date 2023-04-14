@@ -22,12 +22,21 @@ public class PersonServices {
 		
 		return person;
 	}
+	
 	/*-------------UPDATE-------------*/
 	public Person update(Person person) {
-		logger.info("Creating one person!");
+		logger.info("Updating one person!");
 		
 		return person;
 	}
+	
+	/*-------------DELETE-------------*/
+	public void delete(String id) {
+		logger.info("deleting one person!");
+		
+		
+	}
+	
 	/*-------------FINDBYID-------------*/
 	public Person findById(String id) {
 		
