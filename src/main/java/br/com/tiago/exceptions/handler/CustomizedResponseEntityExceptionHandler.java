@@ -31,15 +31,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	
 	@ExceptionHandler(UnsupportedOperationException.class)
 	/*Retorna nossa Excessão personalizada*/
-	public final ResponseEntity <ExceptionResponse> handleBadRequestExceptions(
+	public final ResponseEntity <ExceptionResponse> handleNotFoundExceptions(
 			Exception ex, WebRequest request){/*recebe isso como parametro*/
 		/*criando nossa excessaõ*/
 		ExceptionResponse exceptionResponse = new ExceptionResponse(
 				new Date(),
 				ex.getMessage(),
 				request.getDescription(false));
-		/*redireciona nossa exc. para o statusCod InternalServerError*/
-		return new ResponseEntity<> (exceptionResponse, HttpStatus.BAD_REQUEST);
+		/*redireciona nossa exc. para o statusCod*/
+		return new ResponseEntity<> (exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 	
 	
