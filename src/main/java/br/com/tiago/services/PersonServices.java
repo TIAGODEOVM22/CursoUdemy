@@ -6,7 +6,9 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.tiago.data.vo.v1.PersonVO;
 import br.com.tiago.exceptions.ResourceNotFoundException;
+import br.com.tiago.mapper.DozerMapper;
 import br.com.tiago.model.Person;
 import br.com.tiago.repository.PersonRepsitory;
 
@@ -15,46 +17,49 @@ public class PersonServices {
 	
 	@Autowired
 	PersonRepsitory personRepsitory;
+
 	
 	private Logger logger = Logger.getLogger(PersonServices.class.getName());
 	
 	/*-------------FINDBYID-------------*/
-	public Person findById(Long id) {
-		
-		logger.info("Finding one Person!");
-	
-		Person person = new Person();
-		//person.setId(counter.incrementAndGet());
-		person.setFirstName("Tiago");
-		person.setLastName("Oliveira");
-		person.setAddress("Corumbá - MS - Brasil");
-		person.setGender("male");
+	public PersonVO findById(Long id) {
+		logger.info("Finding one Person!");		
 
-		return personRepsitory.findById(id)
+		var entity = personRepsitory.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+	
+		
+		return DozerMapper.parseObject(entity, PersonVO.class);
 	}
 	
 	/*-------------FINDALL-------------*/
-	public List<Person> findAll() {
-		
+	public List<PersonVO> findAll() {
 		logger.info("Finding all person!");
-		return personRepsitory.findAll();
+		return DozerMapper.parseListObjects(personRepsitory.findAll(), PersonVO.class)  ;
 		
 	}
 	
 	
 	/*-------------CREATE-------------*/
-	public Person create(Person person) {
+	public PersonVO create(PersonVO person) {
 		logger.info("Creating one person!");
 		
-		return personRepsitory.save(person);
+		/*recebe o VO e converte para Model*/
+		var entity = DozerMapper.parseObject(person, Person.class);
+		
+		/*tranforma de volta para VO*/
+		var vo = DozerMapper.parseObject(personRepsitory.save(entity), PersonVO.class);
+		
+		/*retorna VO*/
+		return vo;
+		
 	}
 	
 	/*-------------UPDATE-------------*/
-	public Person update(Person person) {
+	public PersonVO update(PersonVO person) {
 		logger.info("Updating one person!");
 		
-		Person obj = personRepsitory.findById(person.getId())
+		var obj = personRepsitory.findById(person.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 		
 		obj.setFirstName(person.getFirstName());
@@ -62,14 +67,15 @@ public class PersonServices {
 		obj.setAddress(person.getAddress());
 		obj.setGender(person.getGender());
 		
-		return personRepsitory.save(obj);
+		var vo = DozerMapper.parseObject(personRepsitory.save(obj), PersonVO.class);
+		return vo;
 	}
 	
 	/*-------------DELETE-------------*/
 	public void delete(Long id) {
 		logger.info("deleting one person!");
 
-		Person obj = personRepsitory.findById(id)
+		var obj = personRepsitory.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 		
 		personRepsitory.delete(obj);

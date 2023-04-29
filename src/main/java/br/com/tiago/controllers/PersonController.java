@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.tiago.model.Person;
+import br.com.tiago.data.vo.v1.PersonVO;
 import br.com.tiago.services.PersonServices;
 
 @RestController
@@ -27,14 +27,14 @@ public class PersonController {
 	/*------------------METODO FINDBYID---------------*/
 	@GetMapping(value = "/{id}", 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public Person findById(@PathVariable(value = "id") Long id) throws Exception {
+	public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
 
 		return personServices.findById(id);
 	}
 	
 	/*---------------METODO FINDALL--------------*/
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Person> findAll(){
+	public List<PersonVO> findAll(){
 		return personServices.findAll();
 	}
 
@@ -42,7 +42,7 @@ public class PersonController {
 	/*----------CREATE--------*/
 	@PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE, /*cosome JSON*/
 			produces = MediaType.APPLICATION_JSON_VALUE) /*Produz JSON*/
-	public Person create(@RequestBody Person person) {
+	public PersonVO create(@RequestBody PersonVO person) {
 		
 		return personServices.create(person);
 	}
@@ -50,7 +50,7 @@ public class PersonController {
 	/*----------UPDATE--------*/
 	@PutMapping ( consumes = MediaType.APPLICATION_JSON_VALUE, /*cosome JSON*/
 			produces = MediaType.APPLICATION_JSON_VALUE) /*Produz JSON*/
-	public Person update (@RequestBody Person person) {
+	public PersonVO update (@RequestBody PersonVO person) {
 		return personServices.update(person);
 	}
 
