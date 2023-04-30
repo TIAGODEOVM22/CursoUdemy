@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.tiago.data.vo.v1.PersonVO;
+import br.com.tiago.data.vo.v2.PersonVOv2;
 import br.com.tiago.exceptions.ResourceNotFoundException;
 import br.com.tiago.mapper.DozerMapper;
+import br.com.tiago.mapper.custom.PersonMapper;
 import br.com.tiago.model.Person;
 import br.com.tiago.repository.PersonRepsitory;
 
@@ -17,7 +19,9 @@ public class PersonServices {
 	
 	@Autowired
 	PersonRepsitory personRepsitory;
-
+	
+	@Autowired
+	PersonMapper personMapper;
 	
 	private Logger logger = Logger.getLogger(PersonServices.class.getName());
 	
@@ -34,24 +38,39 @@ public class PersonServices {
 	
 	/*-------------FINDALL-------------*/
 	public List<PersonVO> findAll() {
-		logger.info("Finding all person!");
+		logger.info("Finding all personVO!");
 		return DozerMapper.parseListObjects(personRepsitory.findAll(), PersonVO.class)  ;
 		
 	}
 	
 	
 	/*-------------CREATE-------------*/
-	public PersonVO create(PersonVO person) {
-		logger.info("Creating one person!");
+	public PersonVO create(PersonVO personVo) {
+		logger.info("Creating one personVO!");
 		
 		/*recebe o VO e converte para Model*/
-		var entity = DozerMapper.parseObject(person, Person.class);
+		var entity = DozerMapper.parseObject(personVo, Person.class);
 		
 		/*tranforma de volta para VO*/
 		var vo = DozerMapper.parseObject(personRepsitory.save(entity), PersonVO.class);
 		
 		/*retorna VO*/
 		return vo;
+		
+	}
+	
+	/*-------------CREATE v2-------------*/
+	public PersonVOv2 createV2(PersonVOv2 personV2) {
+		logger.info("Creating one personV2!");
+		
+		/*recebe o VOv2 e converte para Model*/
+		var entity = personMapper.convertToModel(personV2);
+		
+		/*tranforma de volta para VOv2*/
+		var vo2 = personMapper.convertEntityToV2(personRepsitory.save(entity));
+		
+		/*retorna VOv2*/
+		return vo2;
 		
 	}
 	
