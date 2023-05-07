@@ -19,7 +19,7 @@ import br.com.tiago.data.vo.v2.PersonVOv2;
 import br.com.tiago.services.PersonServices;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person")
 public class PersonController {
 
 	@Autowired
@@ -27,38 +27,43 @@ public class PersonController {
 
 	/*------------------METODO FINDBYID---------------*/
 	@GetMapping(value = "/{id}", 
-			produces = MediaType.APPLICATION_JSON_VALUE)
+			produces = {MediaType.APPLICATION_JSON_VALUE, 
+						MediaType.APPLICATION_XML_VALUE })
 	public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
 
 		return personServices.findById(id);
 	}
 	
 	/*---------------METODO FINDALL--------------*/
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, 
+							MediaType.APPLICATION_XML_VALUE })
 	public List<PersonVO> findAll(){
 		return personServices.findAll();
 	}
 
 		
 	/*----------CREATE--------*/
-	@PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE, /*cosome JSON*/
-			produces = MediaType.APPLICATION_JSON_VALUE) /*Produz JSON*/
+	@PostMapping(
+			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public PersonVO create(@RequestBody PersonVO person) {
 		
 		return personServices.create(person);
 	}
 	
 	/*----------CREATE v2--------*/
-	@PostMapping( value = "/v2", consumes = MediaType.APPLICATION_JSON_VALUE, /*cosome JSON*/
-			produces = MediaType.APPLICATION_JSON_VALUE) /*Produz JSON*/
+	@PostMapping( value = "/v2", 
+			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public PersonVOv2 createV2(@RequestBody PersonVOv2 personV2) {
 		
 		return personServices.createV2(personV2);
 	}
 	
 	/*----------UPDATE--------*/
-	@PutMapping ( consumes = MediaType.APPLICATION_JSON_VALUE, /*cosome JSON*/
-			produces = MediaType.APPLICATION_JSON_VALUE) /*Produz JSON*/
+	@PutMapping ( 
+			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public PersonVO update (@RequestBody PersonVO person) {
 		return personServices.update(person);
 	}
