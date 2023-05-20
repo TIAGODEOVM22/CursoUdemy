@@ -35,8 +35,8 @@ public class PersonController {
 	}
 	
 	/*---------------METODO FINDALL--------------*/
-	@GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, 
-							MediaType.APPLICATION_XML_VALUE })
+	@GetMapping /*(produces = {MediaType.APPLICATION_JSON_VALUE, 
+							MediaType.APPLICATION_XML_VALUE })*/
 	public List<PersonVO> findAll(){
 		return personServices.findAll();
 	}
