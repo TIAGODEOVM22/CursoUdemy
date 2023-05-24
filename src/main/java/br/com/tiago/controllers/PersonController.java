@@ -3,6 +3,7 @@ package br.com.tiago.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +32,9 @@ public class PersonController {
 						MediaType.APPLICATION_XML_VALUE })
 	public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
 
-		return personServices.findById(id);
+		PersonVO personVo = personServices.findById(id);
+		personVo.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonController.class).findById(id)).withSelfRel());
+		return personVo;
 	}
 	
 	/*---------------METODO FINDALL--------------*/

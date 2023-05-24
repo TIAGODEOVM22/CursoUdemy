@@ -3,7 +3,12 @@ package br.com.tiago.data.vo.v1;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PersonVO implements Serializable {
+import org.springframework.hateoas.RepresentationModel;
+
+import br.com.tiago.model.Person;
+
+public class PersonVO extends RepresentationModel <Person>
+implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
