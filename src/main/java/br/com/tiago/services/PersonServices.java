@@ -45,11 +45,11 @@ public class PersonServices {
 	
 	
 	/*-------------CREATE-------------*/
-	public PersonVO create(PersonVO personVo) {
+	public PersonVO create(PersonVO person) {
 		logger.info("Creating one personVO!");
 		
 		/*recebe o VO e converte para Model*/
-		var entity = DozerMapper.parseObject(personVo, Person.class);
+		var entity = DozerMapper.parseObject(person, Person.class);
 		
 		/*tranforma de volta para VO*/
 		var vo = DozerMapper.parseObject(personRepsitory.save(entity), PersonVO.class);

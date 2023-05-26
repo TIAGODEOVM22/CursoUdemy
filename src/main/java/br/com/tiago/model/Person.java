@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "person")
-public class Person extends RepresentationModel< Person > implements Serializable {
+public class Person extends RepresentationModel <Person> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

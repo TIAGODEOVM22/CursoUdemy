@@ -1,5 +1,6 @@
 package br.com.tiago.controllers;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +32,38 @@ public class PersonController {
 			produces = {MediaType.APPLICATION_JSON_VALUE, 
 						MediaType.APPLICATION_XML_VALUE })
 	public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
-
 		PersonVO personVo = personServices.findById(id);
-		personVo.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonController.class).findById(id)).withSelfRel());
+		personVo.add(WebMvcLinkBuilder.linkTo(
+					 WebMvcLinkBuilder.methodOn(PersonController.class).
+					 findById(id)).withSelfRel());
+		personVo.add(WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(PersonController.class).
+				findAll()).withRel("Persons"));
 		return personVo;
 	}
 	
 	/*---------------METODO FINDALL--------------*/
-	@GetMapping /*(produces = {MediaType.APPLICATION_JSON_VALUE, 
-							MediaType.APPLICATION_XML_VALUE })*/
-	public List<PersonVO> findAll(){
-		return personServices.findAll();
+	@GetMapping (produces = {MediaType.APPLICATION_JSON_VALUE, 
+							MediaType.APPLICATION_XML_VALUE })
+	public Collection <PersonVO> findAll(){
+		List<PersonVO> listPerson = personServices.findAll();
+			listPerson.stream().
+			forEach(p-> {
+				try {
+					p.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonController.class).
+							findById(p.getId())).withSelfRel());
+					p.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonController.class).
+							findAll()).withRel("Persons"));
+							
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		
+	
+	
+		return listPerson;
 	}
 
 		
@@ -49,26 +71,33 @@ public class PersonController {
 	@PostMapping(
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public PersonVO create(@RequestBody PersonVO person) {
-		
-		return personServices.create(person);
+	public PersonVO create(@RequestBody PersonVO person) throws Exception {
+		PersonVO personVo = personServices.create(person);
+		personVo.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonController.class).
+				findById(personVo.getId())).withSelfRel());
+		return personVo;
 	}
 	
 	/*----------CREATE v2--------*/
 	@PostMapping( value = "/v2", 
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public PersonVOv2 createV2(@RequestBody PersonVOv2 personV2) {
-		
-		return personServices.createV2(personV2);
+	public PersonVOv2 createV2(@RequestBody PersonVOv2 person) throws Exception {
+		PersonVOv2 personV2 = personServices.createV2(person);
+		personV2.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonController.class).
+				findById(personV2.getId())).withSelfRel());
+		return personV2;
 	}
 	
 	/*----------UPDATE--------*/
 	@PutMapping ( 
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public PersonVO update (@RequestBody PersonVO person) {
-		return personServices.update(person);
+	public PersonVO update (@RequestBody PersonVO person) throws Exception {
+		PersonVO personVo = personServices.update(person);
+		personVo.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PersonController.class).
+				findById(personVo.getId())).withSelfRel());
+		return personVo;
 	}
 
 	

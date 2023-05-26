@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class PersonVOv2 implements Serializable {
+import org.springframework.hateoas.RepresentationModel;
+
+public class PersonVOv2 extends RepresentationModel <PersonVOv2> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 

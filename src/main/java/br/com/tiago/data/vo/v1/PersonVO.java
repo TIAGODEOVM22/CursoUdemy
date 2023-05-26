@@ -7,7 +7,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import br.com.tiago.model.Person;
 
-public class PersonVO extends RepresentationModel <Person>
+public class PersonVO extends RepresentationModel <PersonVO>
 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
