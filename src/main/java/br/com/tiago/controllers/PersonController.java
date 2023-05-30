@@ -1,7 +1,6 @@
 package br.com.tiago.controllers;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -19,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.tiago.data.vo.v1.PersonVO;
 import br.com.tiago.data.vo.v2.PersonVOv2;
 import br.com.tiago.services.PersonServices;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api/person")
@@ -28,6 +30,11 @@ public class PersonController {
 	private PersonServices personServices;
 
 	/*------------------METODO FINDBYID---------------*/
+	@Operation(description = "Busca Pessoa por ID")
+	@ApiResponses(value = {
+		@ApiResponse (responseCode = "200", description = "Retorna a Pessoa" ),
+		@ApiResponse (responseCode = "500", description = "Retorna execessão Personalizada")
+	})
 	@GetMapping(value = "/{id}", 
 			produces = {MediaType.APPLICATION_JSON_VALUE, 
 						MediaType.APPLICATION_XML_VALUE })
@@ -43,10 +50,15 @@ public class PersonController {
 	}
 	
 	/*---------------METODO FINDALL--------------*/
+	@Operation(description = "Busca Pessoas")
+	@ApiResponses(value = {
+		@ApiResponse (responseCode = "200", description = "Retorna lista de Pessoas" ),
+		
+	})
 	@GetMapping (produces = {MediaType.APPLICATION_JSON_VALUE, 
 							MediaType.APPLICATION_XML_VALUE })
 	public Collection <PersonVO> findAll(){
-		List<PersonVO> listPerson = personServices.findAll();
+		Collection <PersonVO> listPerson = personServices.findAll();
 			listPerson.stream().
 			forEach(p-> {
 				try {
@@ -68,6 +80,7 @@ public class PersonController {
 
 		
 	/*----------CREATE--------*/
+	@Operation(description = "Endpoint responsável por Criar um Objeto Pessoa")
 	@PostMapping(
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -79,6 +92,7 @@ public class PersonController {
 	}
 	
 	/*----------CREATE v2--------*/
+	@Operation(description = "Endpoint responsável por Criar um Objeto PessoaV2")
 	@PostMapping( value = "/v2", 
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -90,6 +104,7 @@ public class PersonController {
 	}
 	
 	/*----------UPDATE--------*/
+	@Operation(description = "Endpoint responsável por Atualizar um Objeto Pessoa")
 	@PutMapping ( 
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -102,6 +117,7 @@ public class PersonController {
 
 	
 	/*-----------DELETE-----------*/
+	@Operation(description = "Endpoint responsável por Deletar um Objeto Pessoa")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable(value = "id")Long id){
 		personServices.delete(id);
