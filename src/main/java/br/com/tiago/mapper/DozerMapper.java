@@ -12,13 +12,13 @@ public class DozerMapper {
 	
 	private static Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 	
-	/*FAZ A CONVERSÃO
+	/*FAZ A CONVERSÃO DE DOMAIN PARA V.O
 	 * tendo dois tipos O, D*/
 	public static <O, D> D parseObject (O origin, Class<D> destination) {
 		return mapper.map(origin, destination);
 	}
 	
-	/*FAZ A CONVERSÃO DE LISTA*/
+	/*FAZ A CONVERSÃO DE LISTA DOMAIN PARA V.O*/
 	public static <O, D> List<D> parseListObjects (List<O> origin, Class<D> destination) {
 		List<D> destinationObjects = new ArrayList<D>();
 		

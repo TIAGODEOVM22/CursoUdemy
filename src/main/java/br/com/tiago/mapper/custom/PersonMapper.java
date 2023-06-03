@@ -10,6 +10,7 @@ import br.com.tiago.model.Person;
 @Service
 public class PersonMapper {
 
+	/*CONVERTE DE V2 PARA DOMAIN*/
 	public PersonVOv2 convertEntityToV2(Person person) {
 		PersonVOv2 voV2 = new PersonVOv2();
 		voV2.setId(person.getId());
@@ -22,11 +23,11 @@ public class PersonMapper {
 		return voV2;
 	}
 	
+	/*CONVERTE DE DOMAIN PARA V2*/
 	public Person convertToModel(PersonVOv2 personV2) {
 		Person person = new Person();
 		person.setId(personV2.getId());
-		person.setAddress(personV2.getAddress());
-		
+		person.setAddress(personV2.getAddress());	
 		person.setFirstName(personV2.getFirstName());
 		person.setLastName(personV2.getLastName());
 		person.setGender(personV2.getGender());
