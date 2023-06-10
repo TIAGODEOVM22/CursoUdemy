@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import br.com.tiago.model.User;
 
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 
-	@Query("SELECT u FROM user u WHERE u.userName =: userName")
-	User findByUserName (@Param ("userName") String userName);
+	/*@Query("SELECT u FROM user u WHERE u.userName =: userName")
+	User findByUserName (@Param ("userName") String userName);*/
 	
+	@Query("SELECT obj FROM User obj WHERE obj.userName =: userName")
+	User findByUserName(@Param("userName") String userName);
 }
