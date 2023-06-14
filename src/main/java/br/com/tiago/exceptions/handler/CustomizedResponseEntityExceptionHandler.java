@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.tiago.exceptions.ExceptionResponse;
+import br.com.tiago.exceptions.InvalidJwtAuthenticationException;
 
 @ControllerAdvice /*Concentra tratamento de exc. nos controllers*/
 @RestController
@@ -42,6 +43,18 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		return new ResponseEntity<> (exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler(InvalidJwtAuthenticationException.class)
+	/*Retorna nossa Excessão personalizada*/
+	public final ResponseEntity <ExceptionResponse> invalidJwtAuthenticationException(
+			Exception ex, WebRequest request){/*recebe isso como parametro*/
+		/*criando nossa excessaõ*/
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false));
+		/*redireciona nossa exc. para o statusCod*/
+		return new ResponseEntity<> (exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
 	
 }
 	
